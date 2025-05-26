@@ -1,0 +1,231 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(to right, #6dd5ed, #2193b0); /* Blue gradient */
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 800px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+h1 {
+    font-size: 2.8em;
+    margin-bottom: 15px;
+    color: #f0f8ff; /* Alice Blue */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #e0ffff; /* Light Cyan */
+}
+
+.tagline {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #d1f7ff; /* Lighter blue */
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+input[type="file"] {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: #333;
+    cursor: pointer;
+    width: calc(100% - 40px); /* Adjust width */
+    max-width: 350px;
+}
+
+.button {
+    background: #007bff; /* Blue */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.button:hover {
+    background: #0056b3; /* Darker blue */
+    transform: translateY(-2px);
+}
+
+.primary-button {
+    background: #28a745; /* Green */
+}
+
+.primary-button:hover {
+    background: #218838; /* Darker green */
+}
+
+.secondary-button {
+    background: #ffc107; /* Yellow/Orange */
+    color: #333;
+}
+
+.secondary-button:hover {
+    background: #e0a800; /* Darker yellow/orange */
+}
+
+.disabled-button {
+    background: #6c757d; /* Gray */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.disabled-button:hover {
+    background: #6c757d; /* No change on hover */
+    transform: none;
+}
+
+.back-button {
+    background: #17a2b8; /* Teal */
+    margin-top: 30px;
+}
+
+.back-button:hover {
+    background: #138496; /* Darker teal */
+}
+
+.result-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.result-image-container {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 90%;
+    overflow: hidden; /* Ensures image doesn't break layout */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.annotated-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 3px solid #f0f8ff;
+}
+
+.video-frames-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+    max-width: 90%;
+    width: 100%;
+    justify-content: center;
+}
+
+.annotated-video-frame {
+    width: 100%;
+    height: 150px; /* Fixed height for consistency */
+    object-fit: cover; /* Crop to fit, maintain aspect ratio */
+    border-radius: 10px;
+    border: 2px solid #a9f0ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.annotated-video-frame:hover {
+    transform: scale(1.03);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .tagline {
+        font-size: 1em;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .button {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    input[type="file"] {
+        width: 100%;
+        max-width: none;
+    }
+
+    .video-frames-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+    h2 {
+        font-size: 1.3em;
+    }
+    .card {
+        padding: 15px;
+    }
+}

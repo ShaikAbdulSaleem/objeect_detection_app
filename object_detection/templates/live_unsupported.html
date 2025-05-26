@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Detection Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container result-page">
+        <h1>⚠️ Live Webcam Detection</h1>
+        <p class="tagline">Direct live webcam detection and server-side processing for real-time video streams are complex to set up in typical hosted environments like Render without dedicated streaming infrastructure (e.g., WebSockets, RTMP, or client-side processing).</p>
+        <p>For this application, live detection would involve:</p>
+        <ul>
+            <li>Capturing frames from the webcam in your browser using JavaScript.</li>
+            <li>Sending these frames (e.g., as base64 encoded images) to a backend API endpoint.</li>
+            <li>The backend processes the image and sends back the annotated image.</li>
+            <li>The browser displays the annotated image.</li>
+        </ul>
+        <p>This adds significant complexity to the project. For a simple initial deployment, it's recommended to focus on image and video file uploads.</p>
+        <a href="/" class="button back-button">Go Back to Home</a>
+    </div>
+</body>
+</html>

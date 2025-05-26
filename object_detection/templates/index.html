@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Object Detection App 🔍</h1>
+        <p class="tagline">Upload an image or video to detect objects!</p>
+
+        <div class="card">
+            <h2>Upload Image</h2>
+            <form action="/upload-image" method="post" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit" class="button primary-button">Detect on Image</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Upload Video</h2>
+            <form action="/upload-video" method="post" enctype="multipart/form-data">
+                <input type="file" name="video" accept="video/*" required>
+                <button type="submit" class="button secondary-button">Detect on Video</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Live Webcam Detection</h2>
+            <p>Live webcam detection is not supported in this hosted environment.</p>
+            <a href="/live" class="button disabled-button">Learn More</a>
+        </div>
+    </div>
+</body>
+</html>

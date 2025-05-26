@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Detection Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container result-page">
+        <h1>🎥 Video Detection Complete!</h1>
+        <p class="tagline">Here are some annotated frames from your video. For full video playback with annotations, advanced streaming is required.</p>
+        <div class="video-frames-grid">
+            {% if frame_urls %}
+                {% for frame_url in frame_urls %}
+                    <img src="{{ frame_url }}" alt="Annotated Video Frame" class="annotated-video-frame">
+                {% endfor %}
+            {% else %}
+                <p>No frames to display. There might have been an issue processing the video.</p>
+            {% endif %}
+        </div>
+        <a href="/" class="button back-button">Go Back</a>
+    </div>
+</body>
+</html>

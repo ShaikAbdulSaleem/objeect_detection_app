@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container result-page">
+        <h1>🥳 Detection Complete!</h1>
+        <p class="tagline">Here's your annotated image.</p>
+        <div class="result-image-container">
+            {% if image_path %}
+                <img src="{{ image_path }}" alt="Annotated Image" class="annotated-image">
+            {% else %}
+                <p>No image to display.</p>
+            {% endif %}
+        </div>
+        <a href="/" class="button back-button">Go Back</a>
+    </div>
+</body>
+</html>
