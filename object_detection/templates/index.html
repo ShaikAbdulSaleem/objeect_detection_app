@@ -3,36 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Object Detection App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Object and Gender Detection App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+        form {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #e9e9e9;
+        }
+        input[type="file"] {
+            display: block;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ccc;
+            margin: 40px 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Object Detection App 🔍</h1>
-        <p class="tagline">Upload an image or video to detect objects!</p>
+        <h1>Welcome to Object and Gender Detection</h1>
+        <p>Upload an image or video to detect objects and human genders within it.</p>
 
-        <div class="card">
-            <h2>Upload Image</h2>
-            <form action="/upload-image" method="post" enctype="multipart/form-data">
-                <input type="file" name="image" accept="image/*" required>
-                <button type="submit" class="button primary-button">Detect on Image</button>
-            </form>
-        </div>
+        <hr>
+        <h2>Upload Image for Detection</h2>
+        <form action="/upload-image" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept=".png, .jpg, .jpeg, .gif" required>
+            <button type="submit">Upload Image</button>
+        </form>
 
-        <div class="card">
-            <h2>Upload Video</h2>
-            <form action="/upload-video" method="post" enctype="multipart/form-data">
-                <input type="file" name="video" accept="video/*" required>
-                <button type="submit" class="button secondary-button">Detect on Video</button>
-            </form>
-        </div>
+        <hr>
+        <h2>Upload Video for Detection</h2>
+        <form action="/upload-video" method="post" enctype="multipart/form-data">
+            <input type="file" name="video" accept=".mp4, .avi, .mov, .mkv" required>
+            <button type="submit">Upload Video</button>
+        </form>
 
-        <div class="card">
-            <h2>Live Webcam Detection</h2>
-            <p>Live webcam detection is not supported in this hosted environment.</p>
-            <a href="/live" class="button disabled-button">Learn More</a>
-        </div>
+        <hr>
+        <h2>Image Compressor</h2>
+        <p>Having issues with large image files resulting in errors? Compress them here before uploading for detection!</p>
+        <form action="/compress-image" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept=".jpg, .jpeg, .png" required>
+            <button type="submit">Compress Image</button>
+        </form>
+
+        <hr>
+        <h2>Live Detection (Unsupported)</h2>
+        <p>This feature is currently not supported in this deployment environment.</p>
+        <form action="/live" method="get">
+            <button type="submit" disabled>Start Live Stream</button>
+        </form>
+
     </div>
 </body>
 </html>
