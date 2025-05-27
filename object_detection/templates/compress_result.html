@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compressed Image Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        a.button {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        a.button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Compression Result</h1>
+        {% if compressed_image_path %}
+            <p>Your image has been compressed! You can now use this smaller file for detection.</p>
+            <p>Original File: <strong>{{ original_filename }}</strong></p>
+            <p>Compressed File: <strong>{{ compressed_filename }}</strong></p>
+            <img src="{{ compressed_image_path }}" alt="Compressed Image">
+            <a href="{{ compressed_image_path }}" class="button" download="{{ compressed_filename }}">Download Compressed Image</a>
+        {% else %}
+            <p>An error occurred during image compression.</p>
+        {% endif %}
+        <a href="/" class="back-link">Go Back to Upload Page</a>
+    </div>
+</body>
+</html>
