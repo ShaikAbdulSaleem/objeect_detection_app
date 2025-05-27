@@ -23,12 +23,8 @@ app.config['ANNOTATED_VIDEO_FRAMES_FOLDER'] = ANNOTATED_VIDEO_FRAMES_FOLDER
 app.config['COMPRESSED_IMAGE_FOLDER'] = COMPRESSED_IMAGE_FOLDER # Register new folder
 app.config['LIVE_STREAM_FOLDER'] = LIVE_STREAM_FOLDER
 
-# Ensure folders exist at startup
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(ANNOTATED_IMAGE_FOLDER, exist_ok=True)
-os.makedirs(ANNOTATED_VIDEO_FRAMES_FOLDER, exist_ok=True)
-os.makedirs(COMPRESSED_IMAGE_FOLDER, exist_ok=True) # Create new folder
-os.makedirs(LIVE_STREAM_FOLDER, exist_ok=True)
+# Removed the os.makedirs calls from here.
+# These folders will now be managed (created/cleared) within the index() function.
 
 
 # --- Model Loading ---
@@ -82,7 +78,7 @@ def detect_gender_and_annotate(image_cv2):
             startX = max(0, startX)
             startY = max(0, startY)
             endX = min(w, endX)
-            endY = min(h, h) # Fixed: endY should be min(h, endY) not min(h,h)
+            endY = min(h, endY) # Corrected line: was min(h,h)
 
             face_roi = frame_copy[startY:endY, startX:endX]
             if face_roi.shape[0] < 20 or face_roi.shape[1] < 20:
@@ -130,8 +126,8 @@ def detect_objects_on_video(input_path, output_folder):
         frame_count = 0
         annotated_frame_urls = []
 
-        shutil.rmtree(output_folder, ignore_errors=True)
-        os.makedirs(output_folder, exist_ok=True)
+        # Moved shutil.rmtree and os.makedirs into index() and handled per-request here
+        # (This section already creates its subfolder per request)
 
         while True:
             ret, frame = cap.read()
@@ -177,10 +173,12 @@ def compress_image(input_path, output_path, quality=80):
 @app.route('/')
 def index():
     # Clean up previous uploads and annotated files to manage space
+    # This section now solely manages the creation and cleanup of all necessary folders.
     shutil.rmtree(app.config['UPLOAD_FOLDER'], ignore_errors=True)
     shutil.rmtree(app.config['ANNOTATED_IMAGE_FOLDER'], ignore_errors=True)
     shutil.rmtree(app.config['ANNOTATED_VIDEO_FRAMES_FOLDER'], ignore_errors=True)
     shutil.rmtree(app.config['COMPRESSED_IMAGE_FOLDER'], ignore_errors=True) # Clear compressed images too
+    
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     os.makedirs(app.config['ANNOTATED_IMAGE_FOLDER'], exist_ok=True)
     os.makedirs(app.config['ANNOTATED_VIDEO_FRAMES_FOLDER'], exist_ok=True)
@@ -220,7 +218,7 @@ def upload_video():
         file.save(input_path)
 
         video_output_subfolder = os.path.join(app.config['ANNOTATED_VIDEO_FRAMES_FOLDER'], os.path.splitext(filename)[0] + '_' + str(int(time.time())))
-        os.makedirs(video_output_subfolder, exist_ok=True)
+        os.makedirs(video_output_subfolder, exist_ok=True) # This still needs to be here as it's per-request.
 
         annotated_frame_urls = detect_objects_on_video(input_path, video_output_subfolder)
         if annotated_frame_urls:
