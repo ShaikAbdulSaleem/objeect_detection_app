@@ -38,6 +38,16 @@ def allowed_file(filename, allowed_extensions):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
+def resize_image_for_inference(image, max_dim=640):
+    """Resizes an image to have its longest side be max_dim, maintaining aspect ratio."""
+    h, w = image.shape[:2]
+    if max(h, w) > max_dim:
+        scale = max_dim / max(h, w)
+        new_w = int(w * scale)
+        new_h = int(h * scale)
+        return cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+    return image
+
 def detect_objects_on_image(input_path, output_path):
     """Performs object detection on an image and saves the annotated image."""
     try:
@@ -45,10 +55,16 @@ def detect_objects_on_image(input_path, output_path):
         if image is None:
             raise ValueError(f"Could not read image from {input_path}")
 
+        # Resize image before inference to save memory
+        resized_image = resize_image_for_inference(image)
+
         # Perform inference
-        results = model(image)
+        results = model(resized_image) # Use resized_image for inference
 
         # Plot results on the image (YOLO's plot method handles annotation)
+        # It's important to plot on the original image if you want original dimensions,
+        # but for memory reasons, plotting on the resized image and then scaling back
+        # or accepting smaller output is necessary. For simplicity, we'll plot on resized.
         for result in results:
             annotated_image = result.plot()
 
@@ -61,9 +77,7 @@ def detect_objects_on_image(input_path, output_path):
 def detect_objects_on_video(input_path, output_folder):
     """
     Performs object detection on a video and saves annotated frames.
-    For simplicity, this example saves frames as individual images.
-    To generate an annotated video, you would need to reassemble frames
-    using libraries like `imageio` or `moviepy`.
+    Resizes each frame before inference to reduce memory usage.
     """
     try:
         cap = cv2.VideoCapture(input_path)
@@ -74,8 +88,6 @@ def detect_objects_on_video(input_path, output_folder):
         annotated_frame_paths = []
 
         # Clear previous frames in the output folder for this session
-        # This is important for Render's ephemeral filesystem to prevent clutter
-        # and ensure fresh content, but it's not truly 'persistent' storage.
         shutil.rmtree(output_folder, ignore_errors=True)
         os.makedirs(output_folder, exist_ok=True)
 
@@ -84,14 +96,17 @@ def detect_objects_on_video(input_path, output_folder):
             if not ret:
                 break
 
-            results = model(frame)
+            # Resize frame before inference to save memory
+            resized_frame = resize_image_for_inference(frame)
+
+            results = model(resized_frame) # Use resized_frame for inference
             for result in results:
                 annotated_frame = result.plot()
 
             frame_filename = f"frame_{frame_count:05d}.jpg"
             output_frame_path = os.path.join(output_folder, frame_filename)
             cv2.imwrite(output_frame_path, annotated_frame)
-            annotated_frame_paths.append(url_for('static', filename=f'annotated_video_frames/{frame_filename}'))
+            annotated_frame_paths.append(url_for('static', filename=f'annotated_video_frames/{os.path.basename(output_folder)}/{frame_filename}'))
             frame_count += 1
 
         cap.release()
@@ -103,8 +118,6 @@ def detect_objects_on_video(input_path, output_folder):
 @app.route('/')
 def index():
     # Clean up previous uploads and annotated files to manage space
-    # (Render's free tier has limited disk, and it's ephemeral anyway)
-    # This is a basic cleanup; for heavy use, consider cloud storage.
     shutil.rmtree(app.config['UPLOAD_FOLDER'], ignore_errors=True)
     shutil.rmtree(app.config['ANNOTATED_IMAGE_FOLDER'], ignore_errors=True)
     shutil.rmtree(app.config['ANNOTATED_VIDEO_FRAMES_FOLDER'], ignore_errors=True)
